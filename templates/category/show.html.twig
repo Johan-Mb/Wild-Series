@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Catégorie {{ category.name }}{% endblock %}
+{% block title %} Catégorie {{ category.id }}{% endblock %}
 
 {% block body %}
         <div class="media-body">
 
-            {% for program in programs %}
+            {% for category in categories %}
                     <div>
                         <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
-                        <p>{{ program.summary }}</p>
 
                         <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
 

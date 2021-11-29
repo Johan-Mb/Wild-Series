@@ -33,7 +33,7 @@ Class CategoryController extends AbstractController
     /**
      * @Route("/{CategoryName}", methods={"GET"}, requirements={"CategoryName"="[^/]+"}, name="show")
      */
-    public function show(string $categoryName): Response
+    public function showAllCategories(string $categoryName): Response
     {
         $category = $this->getDoctrine()
         ->getRepository(Category::class)
@@ -48,6 +48,26 @@ Class CategoryController extends AbstractController
         return $this->render('category/show.html.twig', [
             'category' => $category,
          ]);
-
     }
+
+    //     /**
+    //  * @Route("/{CategoryName}/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="show")
+    //  */
+    // public function showOneCategory(int $id): Response
+    // {
+    //     $oneCategory = $this->getDoctrine()
+    //     ->getRepository(Category::class)
+    //     ->findOneBy(['id' => $id]);
+
+    // if (!$oneCategory) {
+    //     throw $this->createNotFoundException(
+    //         'No program with category name : '.$id.' found in categories\'s table.'
+    //     );
+    //     }
+
+    //     return $this->render('category/show.html.twig', [
+    //         'oneCategory' => $oneCategory,
+    //      ]);
+
+    // }
 }

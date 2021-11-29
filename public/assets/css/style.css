@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+h1 {
+    text-transform: uppercase;
+    padding-bottom: 20px;
+}
+
+p {
+    font-size: 20px;
+}
+
+/* CSS du header */
+
+
+nav {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    list-style: none;
+    color: white;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
+
+nav a:hover {
+    color: red;
+}
+
+nav a:focus {
+    color: red;
+}
+
+/* CSS de la page show/program */
+
+.content-page {
+    display: flex;
+    flex-direction: row;
+}
+
+.media-body {
+    padding: 40px;
+}
+
+img {
+    height: 100vh;
+}
+
+button {
+    margin-top: 10px;
+    border: 1px solid black;
+    padding: 15px;
+    border-radius: 5px;
+    color: black;
+}
+
+button a {
+    text-decoration: none;
+    color: black;
+}
