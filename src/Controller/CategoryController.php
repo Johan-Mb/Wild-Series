@@ -3,6 +3,7 @@
 // src/Controller/CategoryController.php
 namespace App\Controller;
 
+use App\Entity\Program;
 use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +31,7 @@ Class CategoryController extends AbstractController
         }
 
     /**
-     * @Route("/category/{CategoryName}", methods={"GET"}, requirements={"id"="\d+"}, name="show")
+     * @Route("/{CategoryName}", methods={"GET"}, requirements={"CategoryName"="[^/]+"}, name="show")
      */
     public function show(string $categoryName): Response
     {
@@ -47,5 +48,6 @@ Class CategoryController extends AbstractController
         return $this->render('category/show.html.twig', [
             'category' => $category,
          ]);
+
     }
 }

@@ -8,7 +8,7 @@
         <div>
             <h2>{{ loop.index }} / Catégorie : {{ category.name }}</h2>
 
-            <a href="{{ path("category_show", { id: category.name }) }}">Voir la fiche</a>
+            <a href="{{ path("category_show", { CategoryName: category.name }) }}">Voir les séries de la catégorie {{ category.name }}</a>
 
         </div>
     {% else %}
