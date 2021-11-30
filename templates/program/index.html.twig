@@ -3,6 +3,9 @@
 {% block title %}All programs{% endblock %}
 
 {% block body %}
+
+<div id="content" class="content">
+
     <h1>Toutes les séries : </h1>
     {% for program in programs %}
         <div>
@@ -19,4 +22,6 @@
     <a href="{{ path('app_index') }}">
         Retour à l'accueil
     </a>
+
+</div>
 {% endblock %}

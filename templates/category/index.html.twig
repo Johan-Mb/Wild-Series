@@ -3,12 +3,15 @@
 {% block title %}All categories{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries : </h1>
+
+<div id="content" class="content">
+
+    <h1>Toutes les catégories : </h1>
     {% for category in categories %}
         <div>
             <h2>{{ loop.index }} / Catégorie : {{ category.name }}</h2>
 
-            <a href="{{ path("category_show", { CategoryName: category.name }) }}">Voir les séries de la catégorie {{ category.name }}</a>
+            <a href="{{ path("category_browse", { categoryName: category.name }) }}">Voir les séries de la catégorie {{ category.name }}</a>
 
         </div>
     {% else %}
@@ -18,4 +21,5 @@
     <a href="{{ path('app_index') }}">
         Retour à l'accueil
     </a>
+</div>
 {% endblock %}

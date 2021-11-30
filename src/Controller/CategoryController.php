@@ -31,43 +31,31 @@ Class CategoryController extends AbstractController
         }
 
     /**
-     * @Route("/{CategoryName}", methods={"GET"}, requirements={"CategoryName"="[^/]+"}, name="show")
-     */
-    public function showAllCategories(string $categoryName): Response
-    {
-        $category = $this->getDoctrine()
-        ->getRepository(Category::class)
-        ->findBy(['CategoryName' => $categoryName]);
+     * @Route("/{categoryName}", methods={"GET"}, requirements={"categoryName"="[^/]+"}, name="browse")
+    * @return Response A response instance
 
-    if (!$category) {
+     */
+    public function showAllCategories (string $categoryName, $limit=3): Response
+    {
+        $checkCategory = $this->getDoctrine()
+        ->getRepository(Category::class)
+        ->findBy(['name' => $categoryName]);
+
+        $program = $this->getDoctrine()
+        ->getRepository(Program::class)
+        ->findBy(
+            ['category' => $checkCategory[0]->getId()])
+            ;
+
+    if ($checkCategory == 0 ) {
         throw $this->createNotFoundException(
             'No program with category name : '.$categoryName.' found in categories\'s table.'
         );
         }
 
         return $this->render('category/show.html.twig', [
-            'category' => $category,
+            'categoryName' => $categoryName, 'program' => $program,
          ]);
     }
 
-    //     /**
-    //  * @Route("/{CategoryName}/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="show")
-    //  */
-    // public function showOneCategory(int $id): Response
-    // {
-    //     $oneCategory = $this->getDoctrine()
-    //     ->getRepository(Category::class)
-    //     ->findOneBy(['id' => $id]);
-
-    // if (!$oneCategory) {
-    //     throw $this->createNotFoundException(
-    //         'No program with category name : '.$id.' found in categories\'s table.'
-    //     );
-    //     }
-
-    //     return $this->render('category/show.html.twig', [
-    //         'oneCategory' => $oneCategory,
-    //      ]);
-
-    // }
 }

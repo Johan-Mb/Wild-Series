@@ -1,52 +1,85 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Outfit', sans-serif;
 }
 
 body {
-    background-color: rgb(255, 255, 255);
+    margin-bottom: 1vw;
 }
 
 h1 {
-    text-transform: uppercase;
     padding-bottom: 20px;
+    position: relative;
 }
 
 p {
-    font-size: 20px;
+    font-size: 17px;
+    font-weight: 100;
 }
 
-/* CSS du header */
+a {
+    text-decoration: none;
+}
 
+.btn-lire {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5%;
 
-nav {
-    background-color: black;
+}
+
+.btn-lire:hover {
+    color: white;
+    border-left: 3px solid white;
+    padding-left: 10px;
+}
+
+/* CSS de la sidebar */
+
+.sidebar {
+    color: black;
+    width: 170px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-right: 1px solid black;
+    margin: 30px 0 30px 0;
+
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    gap: 50px;
-    padding: 20px;
+    padding-left: 50px;
+}
 
+.sidebar {
+    position: absolute;
+    z-index: 1010;
+}
+
+.content {
+    margin-left: 230px;
+    padding: 20px 30px;
+}
+
+nav a, li {
+    text-transform: uppercase;
     font-weight: bold;
     font-size: 20px;
-    text-transform: uppercase;
-    list-style: none;
-    color: white;
-}
-
-nav a {
     text-decoration: none;
-    color: white;
+    color: black;
+    list-style-type: none;
+    margin-bottom: 15px;
 }
 
 nav a:hover {
     color: red;
+    border-left: 3px solid red;
+    padding-left: 10px;
 }
 
-nav a:focus {
-    color: red;
-}
+
 
 /* CSS de la page show/program */
 
@@ -60,18 +93,88 @@ nav a:focus {
 }
 
 img {
-    height: 100vh;
+    height: 95vh;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
 }
 
-button {
-    margin-top: 10px;
-    border: 1px solid black;
-    padding: 15px;
-    border-radius: 5px;
-    color: black;
+.title-pages {
+    margin: 20px 0px 0px 260px;
 }
 
-button a {
-    text-decoration: none;
+.btn-return {
+    margin-left: 260px;
     color: black;
+    font-weight: bold;
+    margin-bottom: 1vw;
 }
+
+.btn-return:hover {
+    color: red;
+    border-left: 3px solid red;
+    padding-left: 10px;
+}
+
+/* CSS de la page category/{{categoryName}} */
+
+.content-category-series {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 3%;
+    margin-left: 230px;
+    padding: 0 30px 0 30px;
+}
+
+#category-series {
+    width: 450px;
+    position: relative;
+    border-radius: 10px;
+}
+
+#category-series::before {
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    border-radius: 10px;
+
+  }
+
+  #category-series:hover::before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    border-radius: 10px;
+
+  }
+
+  #category-series::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    inset: 0 0 0 0;
+    background: red;
+    z-index: -1;
+    transition: transform 1s ease;
+
+  }
+
+#category-series-img {
+    width: 100%;
+    height: 70%;
+    transition: transform 1s;
+}
+
+#category-series-img:hover {
+    color: red;
+    opacity: 0.8;
+}
+
+.title-serie {
+    padding: 3% 5% 0 5%;
+}
+
+.summary-serie {
+    padding: 5%;
+}
+
