@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Program;
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,14 +33,28 @@ Class CategoryController extends AbstractController
 
     /**
      * @Route("/{categoryName}", methods={"GET"}, requirements={"categoryName"="[^/]+"}, name="browse")
-    * @return Response A response instance
-
      */
+
+    // public function showAllCategories(CategoryRepository $categoryRepository ): Response
+    // {
+    //     $category = $categoryRepository-> findProgramInCategory('horror');
+
+    //     return $this->render('category/show.html.twig', [
+    //         'category' => $category
+    //     ]);
+    // }
+
     public function showAllCategories (string $categoryName, $limit=3): Response
     {
         $checkCategory = $this->getDoctrine()
         ->getRepository(Category::class)
         ->findBy(['name' => $categoryName]);
+
+    if (empty($checkCategory)) {
+        throw $this->createNotFoundException(
+            'Désolé mon petit lapin, aucun programme de disponible dans la catégorie '.$categoryName.'.'
+        );
+        }
 
         $program = $this->getDoctrine()
         ->getRepository(Program::class)
@@ -47,15 +62,10 @@ Class CategoryController extends AbstractController
             ['category' => $checkCategory[0]->getId()])
             ;
 
-    if ($checkCategory == 0 ) {
-        throw $this->createNotFoundException(
-            'No program with category name : '.$categoryName.' found in categories\'s table.'
-        );
-        }
-
         return $this->render('category/show.html.twig', [
             'categoryName' => $categoryName, 'program' => $program,
          ]);
     }
+
 
 }

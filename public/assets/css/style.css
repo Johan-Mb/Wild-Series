@@ -56,6 +56,7 @@ a {
 .sidebar {
     position: absolute;
     z-index: 1010;
+    height: 100%;
 }
 
 .content {
@@ -101,6 +102,9 @@ img {
 
 .title-pages {
     margin: 20px 0px 0px 260px;
+    position: relative;
+    z-index: 10;
+    top: 1vh;
 }
 
 .btn-return {
