@@ -11,7 +11,7 @@
 <div class="content-category-series">
 
         {% if program == true %}
-            {% for programs in program | reverse | slice(0,3) %}
+            {% for programs in program | reverse | slice(0,6) %}
                     <div id="category-series">
 
                             <a href="{{ path("program_show", { id: programs.id }) }}"><img id="category-series-img" src="{{ programs.poster }}"></a>

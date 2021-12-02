@@ -19,16 +19,16 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function findProgramInCategory(string $categoryName): array
-    {
-       $query = $this->createQueryBuilder('program')
-           ->join('program.title', 'category')
-           ->where('category.name = :categoryName')
-           ->setParameter('categoryName', $categoryName)
-           ->getQuery();
+    // public function findProgramInCategory(string $categoryName): array
+    // {
+    //    $query = $this->createQueryBuilder('program')
+    //        ->join('program.title', 'category')
+    //        ->where('category.name = :categoryName')
+    //        ->setParameter('categoryName', $categoryName)
+    //        ->getQuery();
 
-       return $query->getResult();
-    }
+    //    return $query->getResult();
+    // }
 
     // /**
     //  * @return Category[] Returns an array of Category objects

@@ -35,22 +35,13 @@ Class CategoryController extends AbstractController
      * @Route("/{categoryName}", methods={"GET"}, requirements={"categoryName"="[^/]+"}, name="browse")
      */
 
-    // public function showAllCategories(CategoryRepository $categoryRepository ): Response
-    // {
-    //     $category = $categoryRepository-> findProgramInCategory('horror');
-
-    //     return $this->render('category/show.html.twig', [
-    //         'category' => $category
-    //     ]);
-    // }
-
-    public function showAllCategories (string $categoryName, $limit=3): Response
+    public function showProgramInCategories (string $categoryName): Response
     {
         $checkCategory = $this->getDoctrine()
         ->getRepository(Category::class)
         ->findBy(['name' => $categoryName]);
 
-    if (empty($checkCategory)) {
+    if (!$checkCategory) {
         throw $this->createNotFoundException(
             'Désolé mon petit lapin, aucun programme de disponible dans la catégorie '.$categoryName.'.'
         );
@@ -67,5 +58,13 @@ Class CategoryController extends AbstractController
          ]);
     }
 
+    // public function showAllCategories(CategoryRepository $categoryRepository ): Response
+    // {
+    //     $category = $categoryRepository-> findProgramInCategory('horror');
+
+    //     return $this->render('category/show.html.twig', [
+    //         'category' => $category
+    //     ]);
+    // }
 
 }
