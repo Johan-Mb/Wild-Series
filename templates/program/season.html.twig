@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Season #{{ season.id }}{% endblock %}
+
+{% block body %}
+
+<div id="content" class="content">
+
+    <div class="content-page">
+
+        <div class="media-body">
+            <h1 class="mt-0"> {{ season.description }}</h1>
+            <p>{{ season.year }}</p>
+
+                {% if season.episodes == true %}
+
+                    {% for episode in season.episodes %}
+                    <li>
+                        Episode {{ episode.number }} • {{ episode.title }}
+                        <p>{{ episode.synopsis }}</p>
+                        <a href="{{ path("program_showEpisode", { id: program.id, season_id: season.id, episode_id: episode.id })  }}">Plus d'infos sur l'épisode</a>
+                    </li>
+                    {% endfor %}
+
+                {% else %}
+                    <p>Aucun épisode n'est disponible pour cette saison.</p>
+                {% endif %}
+
+            <button><a href="{{ path("program_show", { id: program.id }) }}">
+                Retour à la fiche de la série {{ program.title }}
+            </a></button>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

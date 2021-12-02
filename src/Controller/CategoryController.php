@@ -58,13 +58,4 @@ Class CategoryController extends AbstractController
          ]);
     }
 
-    // public function showAllCategories(CategoryRepository $categoryRepository ): Response
-    // {
-    //     $category = $categoryRepository-> findProgramInCategory('horror');
-
-    //     return $this->render('category/show.html.twig', [
-    //         'category' => $category
-    //     ]);
-    // }
-
 }
