@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Episode{% endblock %}
+
+{% block body %}
+
+<div id="category-series">
+    {% block content %}
+
+        <div class="title-pages">
+            <h1>Edit Episode</h1>
+        </div>
+
+    {{ include('episode/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="content-category-series" href="{{ path('episode_index') }}">back to list</a>
+
+    {{ include('episode/_delete_form.html.twig') }}
+{% endblock %}
+
+</div>
+
+{% endblock %}

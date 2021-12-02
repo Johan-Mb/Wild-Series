@@ -2,10 +2,14 @@
 
 {% block body %}
 
-<div id="content" class="content">
+    <div class="title-pages">
+        <h1>Bienvenue</h1>
+    </div>
 
-    <h1>Bienvenue</h1>
+        <div class="content-category-series">
+            <a href="{{ path('season_index')}}">Gérer les saisons</a>
+            <a href="{{ path('episode_index')}}">Gérer les épisodes</a>
+        </div>
 
-</div>
 
 {% endblock %}
