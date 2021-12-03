@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Program;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\Collection;
@@ -34,10 +35,6 @@ class Program
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Ne me laisse pas tout vide !")
-     * @Assert\Regex(
-     *     pattern="(?!chat|chien)([0-9A-Za-z-])",
-     *     match=false,
-     *     message="N'utilise pas les mots chats ou chiens")
      */
     private $summary;
 
