@@ -11,7 +11,7 @@
 <div class="content-category-series">
 
         {% if program == true %}
-            {% for programs in program | reverse | slice(0,6) %}
+            {% for programs in program | reverse %}
                     <div id="category-series">
 
                             <a href="{{ path("program_show", { id: programs.id }) }}"><img id="category-series-img" src="{{ programs.poster }}"></a>
@@ -19,7 +19,7 @@
                             <h2 class="title-serie">
                                 {{ loop.index }}. {{ programs.title }}
                             </h2>
-                                <p class="summary-serie">{{ programs.summary|length > 180 ? programs.summary|slice(0, 180) }}...</p>
+                                <p class="summary-serie">{{ programs.summary|slice(0, 180) }}...</p>
                                 <a href="{{ path("program_show", { id: programs.id }) }}"><p class="btn-lire">Lire plus</p></a>
                     </div>
             {% endfor %}
