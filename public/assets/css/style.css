@@ -134,7 +134,8 @@ img {
 #category-series {
     display: flex;
     flex-direction: column;
-    min-width: 270px;
+    min-width: 290px;
+    max-width: 290px;
     position: relative;
     border-radius: 10px;
     margin-bottom: 1.5vw;
@@ -185,3 +186,21 @@ img {
     padding: 5%;
 }
 
+/* CSS de la page show program */
+
+.image-showProgram {
+    width: 60vh;
+    height: 90vh
+}
+
+/* CSS de la page edit season */
+
+#edit-season {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    max-width: 700px;
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 1.5vw;
+}
