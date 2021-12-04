@@ -23,6 +23,14 @@
                     </li>
                     {% endfor %}
 
+                    <strong>Acteurs :</strong>
+                        <ul>
+                            {% for actor in program.actors %}
+                                <li>{{ actor.name }} </li>
+                            {% else %}
+                                <li>Aucun acteur pour cette série</li>
+                            {% endfor %}
+                        </ul>
 
             <button><a href="{{ path('program_edit', {id: program.id}) }}">Modifier la série</a>
             </button>
