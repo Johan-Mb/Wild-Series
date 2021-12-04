@@ -36,6 +36,18 @@ a {
     padding-left: 10px;
 }
 
+.title-pages {
+    margin: 20px 0px 0px 260px;
+    position: relative;
+    z-index: 10;
+    top: 1vh;
+}
+
+.content-page {
+    display: flex;
+    flex-direction: row;
+}
+
 /* CSS de la sidebar */
 
 .sidebar {
@@ -45,7 +57,7 @@ a {
     top: 0;
     bottom: 0;
     border-right: 1px solid black;
-    margin: 30px 0 30px 0;
+    margin: 20px 0 20px 0;
 
     display: flex;
     flex-direction: column;
@@ -56,7 +68,6 @@ a {
 .sidebar {
     position: absolute;
     z-index: 1010;
-    height: 100%;
 }
 
 .content {
@@ -64,7 +75,17 @@ a {
     padding: 20px 30px;
 }
 
-nav a, li {
+nav a {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    list-style-type: none;
+    margin-bottom: 15px;
+}
+
+nav li {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 20px;
@@ -94,31 +115,6 @@ nav a:hover {
     padding-left: 10px;
 }
 
-/* CSS de la page show/program */
-
-.content-page {
-    display: flex;
-    flex-direction: row;
-}
-
-.media-body {
-    padding: 40px;
-}
-
-img {
-    height: 95vh;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-
-}
-
-.title-pages {
-    margin: 20px 0px 0px 260px;
-    position: relative;
-    z-index: 10;
-    top: 1vh;
-}
-
 .btn-return {
     margin-left: 260px;
     color: black;
@@ -131,6 +127,92 @@ img {
     border-left: 3px solid red;
     padding-left: 10px;
 }
+
+/* CSS de la homepage */
+
+.category-serie {
+    padding: 5%;
+    text-transform: capitalize;
+    font-style: italic;
+}
+
+/* CSS de la page show/program */
+
+.media-body {
+    padding: 0 40px 0 40px;
+}
+
+.btns-show-programs{
+    padding-bottom: 20px;
+}
+
+.program-title {
+    text-transform: uppercase;
+}
+
+.show-category-serie {
+    padding-bottom: 5%;
+    text-transform: capitalize;
+    font-style: italic;
+}
+
+.show-program-summary {
+    padding-bottom: 3%;
+}
+
+.seasons-and-actors{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+
+.title-box {
+    font-weight: bold;
+    padding-bottom: 2%;
+}
+
+.list-actors {
+    padding : 1% 0 5% 0;
+}
+
+.actors {
+    list-style: none;
+}
+
+.actors a{
+    color: black;
+}
+
+.actors a:hover{
+    color: red;
+    font-weight: bold;
+    border-left: 3px solid red;
+    padding-left: 10px;
+}
+
+.image-showProgram {
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+img {
+    height: 95vh;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.btn-show-program {
+    color: black;
+    font-weight: bold;
+    margin-bottom: 1vw;
+}
+
+.btn-show-program:hover {
+    color: red;
+    border-left: 3px solid red;
+    padding-left: 10px;
+}
+
 
 /* CSS de la page category/{{categoryName}} */
 
@@ -181,7 +263,8 @@ img {
 
 #category-series-img {
     width: 100%;
-    height: 55vh;
+    height: 50vh;
+    object-fit: cover;
     transition: transform 1s;
 }
 
@@ -216,3 +299,7 @@ img {
     border-radius: 10px;
     margin-bottom: 1.5vw;
 }
+
+/* .test {
+    background-color: aqua;
+} */
