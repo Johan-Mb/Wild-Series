@@ -27,6 +27,7 @@ a {
     text-decoration: none;
     font-weight: bold;
     margin-left: 5%;
+    margin-bottom: 3%;
 
 }
 
@@ -49,6 +50,42 @@ a {
 }
 
 /* CSS de la sidebar */
+
+/* .logo-wild-series {
+    display: flex;
+    flex-direction: row;
+} */
+
+#logo-wild {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 50px;
+    color: black;
+    text-shadow: red 2px 3px;
+}
+
+
+#logo-wild:hover {
+    color: red;
+    text-shadow: black 2px 3px;
+
+}
+
+#logo-series {
+    font-weight: bold;
+    font-size: 40px;
+    text-transform: uppercase;
+    color: red;
+    margin-top: -3vh;
+    margin-bottom: 5vh;
+    text-shadow: black 2px 3px;
+}
+
+#logo-series:hover {
+    color:black;
+    text-shadow: red 2px 3px;
+
+}
 
 .sidebar {
     color: black;
@@ -213,6 +250,19 @@ img {
     padding-left: 10px;
 }
 
+/* CSS de la page /category/ */
+
+.btn-category {
+    color: black;
+    font-weight: bold;
+    margin-bottom: 1vw;
+}
+
+.btn-category:hover {
+    color: red;
+    border-left: 3px solid red;
+    padding-left: 10px;
+}
 
 /* CSS de la page category/{{categoryName}} */
 

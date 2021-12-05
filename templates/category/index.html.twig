@@ -9,16 +9,17 @@
     <h1>Toutes les catégories : </h1>
     {% for category in categories %}
         <div>
-            <h2>{{ loop.index }} / Catégorie : {{ category.name }}</h2>
 
-            <a href="{{ path("category_browse", { categoryName: category.name }) }}">Voir les séries de la catégorie {{ category.name }}</a>
+            <a href="{{ path("category_browse", { categoryName: category.name }) }}">
+                <h2 class="btn-category"> Catégorie : {{ category.name }}</h2>
+            </a>
 
         </div>
     {% else %}
         Aucune catégorie trouvée.
     {% endfor %}
 
-    <a href="{{ path('app_index') }}">
+    <a class="btn-category" href="{{ path('app_index') }}">
         Retour à l'accueil
     </a>
 </div>
