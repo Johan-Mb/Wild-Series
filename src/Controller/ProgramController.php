@@ -1,19 +1,21 @@
 <?php
-// src/Controller/ProgramController.php
+
 namespace App\Controller;
 
 use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Program;
-use App\Form\ProgramType;
 
+use App\Service\Slugify;
+use App\Form\ProgramType;
 use App\Repository\ProgramRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 
 
 /**
@@ -22,6 +24,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 Class ProgramController extends AbstractController
 {
+
+    protected $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     /**
      * @Route("/", name="index")
      * @return Response A response instance
@@ -42,7 +52,7 @@ Class ProgramController extends AbstractController
          *
          * @Route("/new", name="new")
          */
-        public function new(Request $request) : Response
+        public function new(Request $request, Slugify $slugify) : Response
         {
             // Create a new Category Object
             $program = new Program();
@@ -55,6 +65,11 @@ Class ProgramController extends AbstractController
                 // Deal with the submitted data
                 // Get the Entity Manager
                 $entityManager = $this->getDoctrine()->getManager();
+
+                // Add Slugify
+                $slug = $slugify->generate($program->getTitle());
+                $program->strtolower(setSlug($this->slugger->slug($program->getTitle())));
+
                 // Persist Category Object
                 $entityManager->persist($program);
                 // Flush the persisted object
