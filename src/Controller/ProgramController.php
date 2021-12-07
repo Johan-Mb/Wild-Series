@@ -47,41 +47,7 @@ Class ProgramController extends AbstractController
          ]);
     }
 
- /**
-         * The controller for the category add form
-         *
-         * @Route("/new", name="new")
-         */
-        public function new(Request $request, Slugify $slugify) : Response
-        {
-            // Create a new Category Object
-            $program = new Program();
-            // Create the associated Form
-            $form = $this->createForm(ProgramType::class, $program);
-            // Get data from HTTP request
-            $form->handleRequest($request);
-            // Was the form submitted ?
-            if ($form->isSubmitted()) {
-                // Deal with the submitted data
-                // Get the Entity Manager
-                $entityManager = $this->getDoctrine()->getManager();
-
-                // Add Slugify
-                $slug = $slugify->generate($program->getTitle());
-                $program->strtolower(setSlug($this->slugger->slug($program->getTitle())));
-
-                // Persist Category Object
-                $entityManager->persist($program);
-                // Flush the persisted object
-                $entityManager->flush();
-                // Finally redirect to categories list
-                return $this->redirectToRoute('program_index');
-            }
-            // Render the form
-            return $this->render('program/new.html.twig', ["form" => $form->createView()]);
-        }
-
-    #[Route('/new_program', name: 'program_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function newProgram(Request $request, EntityManagerInterface $entityManager): Response
     {
         $program = new Program();
@@ -90,6 +56,9 @@ Class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($program);
+            // Add Slugify
+            // $slug = $slugify->generate($program->getTitle());
+            // $program->strtolower(setSlug($this->slugger->slug($program->getTitle())));
             $entityManager->flush();
 
             return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);

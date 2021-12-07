@@ -15,6 +15,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program = new Program();
         $program->setTitle('Walking dead');
         $program->setSummary('Des zombies envahissent la terre');
+        $program->setPoster('https://fr.web.img3.acsta.net/pictures/21/04/19/14/51/5593951.jpg');
         $program->setCategory($this->getReference('category_0'));
         //ici les acteurs sont insérés via une boucle pour être DRY mais ce n'est pas obligatoire
         for ($i=0; $i < count(ActorFixtures::ACTORS); $i++) {
@@ -30,6 +31,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         return [
           ActorFixtures::class,
           CategoryFixtures::class,
+          SeasonFixtures::class,
         ];
     }
 }
