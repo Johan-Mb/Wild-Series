@@ -51,11 +51,6 @@ a {
 
 /* CSS de la sidebar */
 
-/* .logo-wild-series {
-    display: flex;
-    flex-direction: row;
-} */
-
 #logo-wild {
     font-weight: bold;
     text-transform: uppercase;
@@ -156,7 +151,7 @@ nav a:hover {
     margin-left: 260px;
     color: black;
     font-weight: bold;
-    margin-bottom: 1vw;
+    /* margin-bottom: 1vw; */
 }
 
 .btn-return:hover {
