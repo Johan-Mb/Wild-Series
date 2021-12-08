@@ -7,8 +7,10 @@ use App\Entity\Program;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class SeasonFixtures extends Fixture
+
+class SeasonFixtures extends Fixture implements FixtureGroupInterface
 {
 
     public function __construct(EntityManagerInterface $em)
@@ -22,7 +24,7 @@ class SeasonFixtures extends Fixture
         {
             $season = new Season();
             $season->setYear(mt_rand(2000, 2021));
-            $season->setProgramId($this->program->find(13));
+            $season->setProgramId($this->program->find(24));
             $season->setNumber($i);
             $season->setDescription("Season ". $i);
             $manager->persist($season);
@@ -38,6 +40,11 @@ class SeasonFixtures extends Fixture
           EpisodeFixtures::class,
           ProgramFixtures::class,
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['EpisodesAndSeasons'];
     }
 
 }
