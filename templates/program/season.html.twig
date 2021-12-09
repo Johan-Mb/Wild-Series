@@ -18,7 +18,7 @@
                     <li>
                         Episode {{ episode.number }} • {{ episode.title }}
                         <p>{{ episode.synopsis }}</p>
-                        <a href="{{ path("program_showEpisode", { id: program.id, season_id: season.id, episode_id: episode.id })  }}">Plus d'infos sur l'épisode</a>
+                        <a href="{{ path("program_showEpisode", { slug: program.slug, season_id: season.id, episode_id: episode.id })  }}">Plus d'infos sur l'épisode</a>
                     </li>
                     {% endfor %}
 
@@ -26,7 +26,7 @@
                     <p>Aucun épisode n'est disponible pour cette saison.</p>
                 {% endif %}
 
-            <button><a href="{{ path("program_show", { id: program.id }) }}">
+            <button><a href="{{ path("program_show", { slug: program.slug }) }}">
                 Retour à la fiche de la série {{ program.title }}
             </a></button>
         </div>

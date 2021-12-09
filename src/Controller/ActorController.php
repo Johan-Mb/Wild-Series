@@ -46,7 +46,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{actor}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Actor $actor, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ActorType::class, $actor);

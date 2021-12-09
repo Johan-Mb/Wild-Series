@@ -25,12 +25,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 Class ProgramController extends AbstractController
 {
 
-    protected $slugger;
+    // protected $slugger;
 
-    public function __construct(SluggerInterface $slugger)
-    {
-        $this->slugger = $slugger;
-    }
+    // public function __construct(SluggerInterface $slugger)
+    // {
+    //     $this->slugger = $slugger;
+    // }
 
     /**
      * @Route("/", name="index")
@@ -48,7 +48,7 @@ Class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function newProgram(Request $request, EntityManagerInterface $entityManager): Response
+    public function newProgram(Request $request, EntityManagerInterface $entityManager, Slugify $slugger): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -56,9 +56,11 @@ Class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($program);
+
             // Add Slugify
-            // $slug = $slugify->generate($program->getTitle());
-            // $program->strtolower(setSlug($this->slugger->slug($program->getTitle())));
+            $slug = $slugger->generate($program->getTitle());
+            $program->setSlug($slug);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
@@ -70,7 +72,7 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -88,7 +90,7 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
 
@@ -101,24 +103,24 @@ Class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="show")
+     * @Route("/{slug}", methods={"GET"}, name="show")
      */
-    public function show(Program $program_id): Response
+    public function show(Program $program_slug, Slugify $slugger): Response
     {
-
-        if (!$program_id) {
+        if (!$program_slug) {
             throw $this->createNotFoundException(
-                'No program with id : '. $program_id->getId() .' found in program\'s table.'
+                'No program with id : '. $program_slug->getSlug() .' found in program\'s table.'
             );
             }
 
                 return $this->render('program/show.html.twig', [
-                    'program' => $program_id,
+                    'program' => $program_slug,
+                    'slug' => $slugger,
                 ]);
     }
 
     /**
-     * @Route("/{id}/season/{season_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showSeason")
+     * @Route("/{slug}/season/{season_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showSeason")
      */
     public function showSeason (Program $program_id, Season $season_id): Response
     {
@@ -134,7 +136,7 @@ Class ProgramController extends AbstractController
     }
 
     /**
-    * @Route("/{id}/season/{season_id}/episode/{episode_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showEpisode")
+    * @Route("/{slug}/season/{season_id}/episode/{episode_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showEpisode")
     */
 
     public function showEpisode(Program $program_id, Season $season_id, Episode $episode_id): Response
