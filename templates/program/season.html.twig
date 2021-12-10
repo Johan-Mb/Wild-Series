@@ -18,7 +18,7 @@
                     <li>
                         Episode {{ episode.number }} • {{ episode.title }}
                         <p>{{ episode.synopsis }}</p>
-                        <a href="{{ path("program_showEpisode", { slug: program.slug, season_id: season.id, episode_id: episode.id })  }}">Plus d'infos sur l'épisode</a>
+                        <a href="{{ path("program_showEpisode", { program: program.slug, season: season.id, episode: episode.slug })  }}">Plus d'infos sur l'épisode</a>
                     </li>
                     {% endfor %}
 

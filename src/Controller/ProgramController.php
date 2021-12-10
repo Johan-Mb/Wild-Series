@@ -8,6 +8,7 @@ use App\Entity\Program;
 
 use App\Service\Slugify;
 use App\Form\ProgramType;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,16 +26,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 Class ProgramController extends AbstractController
 {
 
-    // protected $slugger;
-
-    // public function __construct(SluggerInterface $slugger)
-    // {
-    //     $this->slugger = $slugger;
-    // }
-
     /**
      * @Route("/", name="index")
-     * @return Response A response instance
+     * @return Response
      */
     public function index(): Response
     {
@@ -72,7 +66,7 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -90,7 +84,7 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
 
@@ -105,16 +99,16 @@ Class ProgramController extends AbstractController
     /**
      * @Route("/{slug}", methods={"GET"}, name="show")
      */
-    public function show(Program $program_slug, Slugify $slugger): Response
+    public function show(Program $programs, Slugify $slugger): Response
     {
-        if (!$program_slug) {
+        if (!$programs) {
             throw $this->createNotFoundException(
-                'No program with id : '. $program_slug->getSlug() .' found in program\'s table.'
+                'No program with id : '. $programs->getSlug() .' found in program\'s table.'
             );
             }
 
                 return $this->render('program/show.html.twig', [
-                    'program' => $program_slug,
+                    'program' => $programs,
                     'slug' => $slugger,
                 ]);
     }
@@ -136,21 +130,17 @@ Class ProgramController extends AbstractController
     }
 
     /**
-    * @Route("/{slug}/season/{season_id}/episode/{episode_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showEpisode")
+    * @Route("/{program}/season/{season}/episode/{episode}", methods={"GET"}, name="showEpisode")
+    * @ParamConverter("program", class="App\Entity\Program",  options={"mapping": {"program": "slug"}})
+    * @ParamConverter("episode", class="App\Entity\Episode",  options={"mapping": {"episode": "slug"}})
     */
 
-    public function showEpisode(Program $program_id, Season $season_id, Episode $episode_id): Response
+    public function showEpisode(Program $program, Season $season, Episode $episode): Response
     {
-        if (!$episode_id) {
-            throw $this->createNotFoundException(
-                'No episode with id : '. $sepisode_id->getId() .' found.'
-            );
-            }
-
                 return $this->render('program/episode.html.twig', [
-                    'episode' => $episode_id,
-                    'program' => $program_id,
-                    'season' => $season_id,
+                    'episode' => $episode,
+                    'program' => $program,
+                    'season' => $season,
                 ]);
     }
 }

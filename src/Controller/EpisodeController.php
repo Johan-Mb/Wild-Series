@@ -48,18 +48,19 @@ class EpisodeController extends AbstractController
             'form' => $form,
         ]);
     }
+
     /**
-     * Route('/{slug}', name: 'episode_show', methods: ['GET'])]
-     * @ParamConverter("episode", options={"mapping": {"episode": "slug"}})
+     * Route('/{episode_id}', name: 'episode_show', methods: ['GET'])]
+     * @ParamConverter("episode_id", class="App\Entity\Episode", options={"mapping": {"episode_id": "slug"}})
      */
 
-    public function show(Episode $slug, Slugify $slugger): Response
+    public function show(Episode $episode_id): Response
     {
         return $this->render('episode/show.html.twig', [
-            'episode' => $slug,
-            'slug' => $slugger,
+            'episode' => $episode_id,
         ]);
     }
+
 
 
     #[Route('/{slug}/edit', name: 'episode_edit', methods: ['GET', 'POST'])]
