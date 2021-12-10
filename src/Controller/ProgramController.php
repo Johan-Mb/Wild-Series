@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
+use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * @Route("/program", name="program_")
@@ -42,7 +42,7 @@ Class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function newProgram(Request $request, EntityManagerInterface $entityManager, Slugify $slugger): Response
+    public function newProgram(Request $request, EntityManagerInterface $entityManager, Slugify $slugger, MailerInterface $mailer): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -54,8 +54,15 @@ Class ProgramController extends AbstractController
             // Add Slugify
             $slug = $slugger->generate($program->getTitle());
             $program->setSlug($slug);
-
             $entityManager->flush();
+
+            $email = (new Email())
+            ->from('johan@soundigger.com')
+            ->to('johan.mabit@gmail.com')
+            ->subject('Une nouvelle série vient d\'être publiée !')
+            ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
         }
