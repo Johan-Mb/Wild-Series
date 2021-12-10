@@ -14,14 +14,17 @@
 
                 <div id="category-series">
 
-                    <a href="{{ path("program_show", { id: program.id }) }}"><img id="category-series-img" src="{{ program.poster }}"></a>
-
+                    <a href="{{ path("program_show", { slug: program.slug }) }}">
+                        <img id="category-series-img" src="{{ program.poster }}">
+                    </a>
 
                     <h2 class="title-serie">{{ loop.index }} / {{ program.title }}</h2>
                     <p class="category-serie">{{ program.category.name }}</p>
                     <p class="summary-serie">{{ program.summary|length > 80 ? program.summary|slice(0, 80) }}...</p>
 
-                        <a href="{{ path("program_show", { id: program.id }) }}"><p class="btn-lire">Voir la fiche</p></a>
+                        {# <a href="{{ path("program_show", { slug: program.slug }) }}"> #}
+                            <p class="btn-lire">Voir la fiche</p>
+                        {# </a> #}
 
                 </div>
 

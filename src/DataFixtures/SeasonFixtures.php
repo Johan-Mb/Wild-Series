@@ -24,7 +24,7 @@ class SeasonFixtures extends Fixture implements FixtureGroupInterface
         {
             $season = new Season();
             $season->setYear(mt_rand(2000, 2021));
-            $season->setProgramId($this->program->find(24));
+            $season->setProgramId($this->program->find(36));
             $season->setNumber($i);
             $season->setDescription("Season ". $i);
             $manager->persist($season);

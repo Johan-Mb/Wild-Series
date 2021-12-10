@@ -24,7 +24,7 @@
                         <ul class="list-actors">
                             {% for season in program.seasons %}
                             <li class="actors">
-                                <a href="{{ path("program_showSeason", { id: program.id, season_id: season.id }) }}">{{ season.description }}</a>
+                                <a href="{{ path("program_showSeason", { slug: program.slug, season_id: season.id }) }}">{{ season.description }}</a>
                             </li>
                             {% else %}
                                 <li class="actors">Aucune saison pour cette série</li>

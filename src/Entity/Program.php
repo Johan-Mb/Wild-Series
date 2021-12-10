@@ -40,6 +40,7 @@ class Program
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Ne me laisse pas tout vide !")
      */
     private $poster;
 

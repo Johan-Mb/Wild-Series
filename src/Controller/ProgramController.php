@@ -8,6 +8,7 @@ use App\Entity\Program;
 
 use App\Service\Slugify;
 use App\Form\ProgramType;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,16 +26,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 Class ProgramController extends AbstractController
 {
 
-    protected $slugger;
-
-    public function __construct(SluggerInterface $slugger)
-    {
-        $this->slugger = $slugger;
-    }
-
     /**
      * @Route("/", name="index")
-     * @return Response A response instance
+     * @return Response
      */
     public function index(): Response
     {
@@ -48,7 +42,7 @@ Class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function newProgram(Request $request, EntityManagerInterface $entityManager): Response
+    public function newProgram(Request $request, EntityManagerInterface $entityManager, Slugify $slugger): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -56,9 +50,11 @@ Class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($program);
+
             // Add Slugify
-            // $slug = $slugify->generate($program->getTitle());
-            // $program->strtolower(setSlug($this->slugger->slug($program->getTitle())));
+            $slug = $slugger->generate($program->getTitle());
+            $program->setSlug($slug);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
@@ -101,24 +97,24 @@ Class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="show")
+     * @Route("/{slug}", methods={"GET"}, name="show")
      */
-    public function show(Program $program_id): Response
+    public function show(Program $programs, Slugify $slugger): Response
     {
-
-        if (!$program_id) {
+        if (!$programs) {
             throw $this->createNotFoundException(
-                'No program with id : '. $program_id->getId() .' found in program\'s table.'
+                'No program with id : '. $programs->getSlug() .' found in program\'s table.'
             );
             }
 
                 return $this->render('program/show.html.twig', [
-                    'program' => $program_id,
+                    'program' => $programs,
+                    'slug' => $slugger,
                 ]);
     }
 
     /**
-     * @Route("/{id}/season/{season_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showSeason")
+     * @Route("/{slug}/season/{season_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showSeason")
      */
     public function showSeason (Program $program_id, Season $season_id): Response
     {
@@ -134,21 +130,17 @@ Class ProgramController extends AbstractController
     }
 
     /**
-    * @Route("/{id}/season/{season_id}/episode/{episode_id}", methods={"GET"}, requirements={"id"="\d+"}, name="showEpisode")
+    * @Route("/{program}/season/{season}/episode/{episode}", methods={"GET"}, name="showEpisode")
+    * @ParamConverter("program", class="App\Entity\Program",  options={"mapping": {"program": "slug"}})
+    * @ParamConverter("episode", class="App\Entity\Episode",  options={"mapping": {"episode": "slug"}})
     */
 
-    public function showEpisode(Program $program_id, Season $season_id, Episode $episode_id): Response
+    public function showEpisode(Program $program, Season $season, Episode $episode): Response
     {
-        if (!$episode_id) {
-            throw $this->createNotFoundException(
-                'No episode with id : '. $sepisode_id->getId() .' found.'
-            );
-            }
-
                 return $this->render('program/episode.html.twig', [
-                    'episode' => $episode_id,
-                    'program' => $program_id,
-                    'season' => $season_id,
+                    'episode' => $episode,
+                    'program' => $program,
+                    'season' => $season,
                 ]);
     }
 }

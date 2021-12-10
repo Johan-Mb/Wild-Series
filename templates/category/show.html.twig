@@ -14,13 +14,17 @@
             {% for programs in program | reverse %}
                     <div id="category-series">
 
-                            <a href="{{ path("program_show", { id: programs.id }) }}"><img id="category-series-img" src="{{ programs.poster }}"></a>
+                            <a href="{{ path("program_show", { slug: programs.slug }) }}">
+                                <img id="category-series-img" src="{{ programs.poster }}">
+                            </a>
 
                             <h2 class="title-serie">
                                 {{ loop.index }}. {{ programs.title }}
                             </h2>
                                 <p class="summary-serie">{{ programs.summary|slice(0, 120) }}...</p>
-                                <a href="{{ path("program_show", { id: programs.id }) }}"><p class="btn-lire">Lire plus</p></a>
+                                {# <a href="{{ path("program_show", { id: programs.id }) }}"> #}
+                                    <p class="btn-lire">Lire plus</p>
+                                {# </a> #}
                     </div>
             {% endfor %}
         {% else %}
