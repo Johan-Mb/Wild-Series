@@ -22,9 +22,9 @@
                     <p class="category-serie">{{ program.category.name }}</p>
                     <p class="summary-serie">{{ program.summary|length > 80 ? program.summary|slice(0, 80) }}...</p>
 
-                        {# <a href="{{ path("program_show", { slug: program.slug }) }}"> #}
+                        <a href="{{ path("program_show", { slug: program.slug }) }}">
                             <p class="btn-lire">Voir la fiche</p>
-                        {# </a> #}
+                        </a>
 
                 </div>
 

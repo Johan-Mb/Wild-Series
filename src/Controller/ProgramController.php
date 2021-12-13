@@ -9,15 +9,16 @@ use App\Entity\Program;
 use App\Service\Slugify;
 use App\Form\ProgramType;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Mime\Email;
 use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * @Route("/program", name="program_")
@@ -57,7 +58,7 @@ Class ProgramController extends AbstractController
             $entityManager->flush();
 
             $email = (new Email())
-            ->from('johan@soundigger.com')
+            ->from('johan@wilder.com')
             ->to('johan.mabit@gmail.com')
             ->subject('Une nouvelle série vient d\'être publiée !')
             ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));

@@ -3,20 +3,30 @@
 namespace App\Controller;
 
 use App\Entity\Episode;
+use App\Entity\Program;
 use App\Service\Slugify;
 use App\Form\EpisodeType;
+use Symfony\Component\Mime\Email;
 use App\Repository\EpisodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-#[Route('/episode')]
+/**
+ * @Route("/episode")
+ */
+
 class EpisodeController extends AbstractController
 {
-    #[Route('/', name: 'episode_index', methods: ['GET'])]
+    /**
+     * @Route("/", methods={"GET"}, name="episode_index")
+     * @return Response
+     */
+
     public function index(EpisodeRepository $episodeRepository): Response
     {
         return $this->render('episode/index.html.twig', [
@@ -25,8 +35,9 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/new', name: 'episode_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, Slugify $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Slugify $slugger, MailerInterface $mailer): Response
     {
+        $program = new Program();
         $episode = new Episode();
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
@@ -35,29 +46,37 @@ class EpisodeController extends AbstractController
             $entityManager->persist($episode);
 
             // Add Slugify
-            $slug = $slugger->generate($program->getTitle());
-            $program->setSlug($slug);
-
+            $slug = $slugger->generate($episode->getTitle());
+            $episode->setSlug($slug);
             $entityManager->flush();
+
+            $email = (new Email())
+            ->from('johan@wilder.com')
+            ->to('johan.mabit@gmail.com')
+            ->subject('Un nouvel épisode vient d\'être publiée !')
+            ->html($this->renderView('Program/newEpisodeEmail.html.twig', ['episode' => $episode, 'program' => $episode->getSeasonId()->getProgramId()]));
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('episode/new.html.twig', [
             'episode' => $episode,
+            'program' => $program,
             'form' => $form,
         ]);
     }
 
     /**
-     * Route('/{episode_id}', name: 'episode_show', methods: ['GET'])]
-     * @ParamConverter("episode_id", class="App\Entity\Episode", options={"mapping": {"episode_id": "slug"}})
+     * Route("/{slug}", methods={"GET"}, name: "episode_show")
      */
 
-    public function show(Episode $episode_id): Response
+    public function show(Episode $episode, Slugify $slugger): Response
     {
         return $this->render('episode/show.html.twig', [
-            'episode' => $episode_id,
+            'episode' => $episode,
+            'slug' => $slug,
         ]);
     }
 
@@ -81,7 +100,7 @@ class EpisodeController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'episode_delete', methods: ['POST'])]
+    #[Route('/{ud}', name: 'episode_delete', methods: ['POST'])]
     public function delete(Request $request, Episode $episode, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {

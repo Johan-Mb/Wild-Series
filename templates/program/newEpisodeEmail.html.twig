@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> New episode </title>
+</head>
+<body>
+    <h1>Un nouvel épisode a été rajouté à la série {{ program.title }}!</h1>
+    <p>Hello, va vite découvrir le nouvel épisode est disponible : {{ episode.title }} !
+    RDV sur le site de Wild Series</p>
+    <p>Extrait : {{episode.synopsis }}
+
+        <a href="{{ url('program_showEpisode', {'program': program.slug, 'season':  episode.seasonId.id, 'episode': episode.slug}) }}">Voir l'épisode</a>
+
+</body>
+</html>
