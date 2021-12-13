@@ -12,7 +12,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Number</th>
+                        <th>Program</th>
                         <th>Year</th>
                         <th>Description</th>
                         <th>actions</th>
@@ -21,7 +21,7 @@
                 <tbody>
                 {% for season in seasons %}
                     <tr>
-                        <td>{{ season.number }}</td>
+                        <td>{{ season.programId.title }}</td>
                         <td>{{ season.year }}</td>
                         <td>{{ season.description }}</td>
                         <td>

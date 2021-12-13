@@ -107,7 +107,7 @@ a {
     padding: 20px 30px;
 }
 
-nav a {
+.nav-li {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 20px;
@@ -118,16 +118,11 @@ nav a {
 }
 
 nav li {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 20px;
-    text-decoration: none;
-    color: black;
     list-style-type: none;
     margin-bottom: 15px;
 }
 
-nav a:hover {
+.nav-li:hover {
     color: red;
     border-left: 3px solid red;
     padding-left: 10px;

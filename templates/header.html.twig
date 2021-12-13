@@ -2,14 +2,11 @@
 
  <div class="sidebar">
 
-        <p id="logo-wild">Wild</p>
-        <p id="logo-series">Series</p>
+        <a href="{{ path('app_index') }}"><p id="logo-wild">Wild</p></a>
+        <a href="{{ path('app_index') }}"><p id="logo-series">Series</p></a>
 
         <nav>
             <ul>
-                {# <li>
-                        <span><a href="{{ path('app_index') }}">Home</a></span>
-                </li> #}
                 <li>
                         <span><a class="nav-li" href="{{ path('category_index') }}">Categories</a></span>
                 </li>
