@@ -42,7 +42,12 @@ Class ProgramController extends AbstractController
          ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+
+
+    /**
+     * @Route("/new", name="new", methods={"GET", "POST"})
+     * @return Response
+     */
     public function newProgram(Request $request, EntityManagerInterface $entityManager, Slugify $slugger, MailerInterface $mailer): Response
     {
         $program = new Program();
@@ -74,7 +79,10 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @return Response
+     */
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -92,7 +100,10 @@ Class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    /**
+     * @Route("/{id}", name="delete", methods={"POST"})
+     * @return Response
+     */
     public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
 

@@ -21,7 +21,7 @@ class EpisodeFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
-        for ($i=0; $i < count($this->season->findAll()); $i++)
+        for ($i = 0; $i < count($this->season->findAll()); $i++)
         {
             $episode = new Episode();
             $title = "Lorem ipsum";
