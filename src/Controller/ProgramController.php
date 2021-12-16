@@ -7,21 +7,24 @@ use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 
+use App\Repository\ProgramRepository;
 use App\Service\Slugify;
 use App\Form\CommentType;
 use App\Form\ProgramType;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Mime\Email;
-use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 /**
  * @Route("/program", name="program_")
@@ -62,6 +65,9 @@ Class ProgramController extends AbstractController
             // Add Slugify
             $slug = $slugger->generate($program->getTitle());
             $program->setSlug($slug);
+
+            // Set the program's owner
+            $program->setOwner($this->getUser());
             $entityManager->flush();
 
             $email = (new Email())
@@ -82,11 +88,16 @@ Class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET", "POST"})
      * @return Response
      */
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser() == $program->getOwner())) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 

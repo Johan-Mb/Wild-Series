@@ -2,16 +2,20 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Program;
 use App\Service\Slugify;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
-class ProgramFixtures extends Fixture implements DependentFixtureInterface
+abstract class ProgramFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
-    public function __construct(Slugify $slugify)
+    public function __construct(EntityManagerInterface $em, Slugify $slugify)
     {
+        $this->user = $em->getRepository(User::class);
         $this->slugify = $slugify;
     }
 
@@ -24,6 +28,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setPoster('https://cdn.shopify.com/s/files/1/0969/9128/products/PeakyBlinders-ThomasShelby-GarrisonBombing-NetflixTVShow-ArtPoster_b85366b9-72b6-4652-983e-2690676096da.jpg?v=1619864659');
         $program->setCategory($this->getReference('category_0'));
         $program->setSlug($this->slugify->generate($title));
+        $program->setOwner($this->user->find(4));
 
         //ici les acteurs sont insérés via une boucle pour être DRY mais ce n'est pas obligatoire
         for ($i=0; $i < count(ActorFixtures::ACTORS); $i++) {
@@ -42,5 +47,10 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
           CategoryFixtures::class,
           SeasonFixtures::class,
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['ProgramGroup'];
     }
 }
