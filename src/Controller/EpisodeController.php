@@ -74,6 +74,7 @@ class EpisodeController extends AbstractController
 
     public function show(Episode $episode, Slugify $slugger): Response
     {
+
         return $this->render('episode/show.html.twig', [
             'episode' => $episode,
             'slug' => $slug,
@@ -100,7 +101,7 @@ class EpisodeController extends AbstractController
         ]);
     }
 
-    #[Route('/{ud}', name: 'episode_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'episode_delete', methods: ['POST'])]
     public function delete(Request $request, Episode $episode, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {

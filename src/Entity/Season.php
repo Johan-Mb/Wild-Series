@@ -131,4 +131,9 @@ class Season
 
         return $this;
     }
+
+    public function getSelector(): string
+    {
+        return $this->getDescription()." - ".$this->getProgramId()->getTitle();
+    }
 }

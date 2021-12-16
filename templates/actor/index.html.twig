@@ -11,16 +11,16 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
+                {# <th>Série</th> #}
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for actor in actors %}
             <tr>
-                <td>{{ actor.id }}</td>
                 <td>{{ actor.name }}</td>
+                {# <td>{{ actor.programs }} #}
                 <td>
                     <a href="{{ path('actor_show', {'id': actor.id}) }}">show</a>
                     <a href="{{ path('actor_edit', {'id': actor.id}) }}">edit</a>

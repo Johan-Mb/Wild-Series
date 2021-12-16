@@ -4,9 +4,9 @@
     font-family: 'Outfit', sans-serif;
 }
 
-body {
+/* body {
     margin-bottom: 1vw;
-}
+} */
 
 h1 {
     padding-bottom: 20px;
@@ -47,6 +47,18 @@ a {
 .content-page {
     display: flex;
     flex-direction: row;
+}
+
+table {
+    padding-top: 20px;
+}
+
+td {
+    border: 7px solid white;
+}
+
+th {
+    text-transform: uppercase;
 }
 
 /* CSS de la sidebar */

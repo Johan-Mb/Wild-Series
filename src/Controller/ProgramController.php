@@ -3,15 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Season;
+use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 
 use App\Service\Slugify;
+use App\Form\CommentType;
 use App\Form\ProgramType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Mime\Email;
 use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +44,6 @@ Class ProgramController extends AbstractController
             'programs' => $programs
          ]);
     }
-
 
 
     /**
@@ -149,17 +151,34 @@ Class ProgramController extends AbstractController
     }
 
     /**
-    * @Route("/{program}/season/{season}/episode/{episode}", methods={"GET"}, name="showEpisode")
+    * @Route("/{program}/season/{season}/episode/{episode}", methods={"GET", "POST"}, name="showEpisode")
     * @ParamConverter("program", class="App\Entity\Program",  options={"mapping": {"program": "slug"}})
     * @ParamConverter("episode", class="App\Entity\Episode",  options={"mapping": {"episode": "slug"}})
     */
 
-    public function showEpisode(Program $program, Season $season, Episode $episode): Response
+    public function showEpisode(Request $request, Program $program, Season $season, Episode $episode, EntityManagerInterface $entityManager,): Response
     {
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUserId($this->getUser());
+            $comment->setEpisodeId($episode);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('program_showEpisode', [], Response::HTTP_SEE_OTHER);
+
+        }
+
                 return $this->render('program/episode.html.twig', [
                     'episode' => $episode,
                     'program' => $program,
                     'season' => $season,
+                    'comment_form' => $form->createView(),
+
                 ]);
     }
 }

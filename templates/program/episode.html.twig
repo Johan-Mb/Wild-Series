@@ -18,7 +18,29 @@
             <button><a href="{{ path("program_showSeason", { slug: program.slug, season_id: season.id }) }}">
                 Tous les épisodes de la saison {{ season.number }} de {{ program.title }}
             </a></button>
+
+            <h2>Ajouter un commentaire</h2>
+
+        {{ form_start(comment_form, {attr: {novalidate:'novalidate' }})}}
+            <div class="test">{{ form_widget(comment_form) }}</div>
+            <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+        {{ form_end(comment_form) }}
+
+            <h2>Commentaires</h2>
+
+                {% for comment in episode.comments %}
+                    <p> {{comment.userId.username}} </p>
+                    <p> {{ comment.comment }} • {{ comment.rate }}/10</p>
+                    </br>
+
+                {% else %}
+                    <p>Aucun commentaire n'a été posté pour le moment.</p>
+                {% endfor %}
+            </div>
+
         </div>
+
+
 
     </div>
 </div>

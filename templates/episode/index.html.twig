@@ -5,6 +5,9 @@
 {% block body %}
 <div class="title-pages">
     <h1>Episode index</h1>
+
+    <a class="btn-home" href="{{ path('episode_new') }}">Create new</a>
+
 </div>
 
     <div class="content-category-series">
@@ -12,22 +15,29 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Number</th>
-                    <th>Title</th>
+                    <th>Série</th>
+                    <th>Titre de l'épisode</th>
                     <th>Synopsis</th>
-                    <th>actions</th>
+                    <th>Voir</th>
+                    <th>Édit.</th>
+                    {# <th>Suppr.</th> #}
                 </tr>
             </thead>
             <tbody>
-            {% for episode in episodes %}
+            {% for episode in episodes| reverse %}
                 <tr>
-                    <td>{{ episode.number }}</td>
+                    <td>{{ episode.seasonId.ProgramId.title }}</td>
                     <td>{{ episode.title }}</td>
-                    <td>{{ episode.synopsis }}</td>
+                    <td>{{ episode.synopsis |length > 70 ? episode.synopsis|slice(0, 70)}}...</td>
                     <td>
-                        {# <a href="{{ path('program_showEpisode', {'program': program.slug, 'season':  episode.seasonId.id, 'episode': episode.slug}) }}">Voir l'épisode</a> #}
+                        <a href="{{ path('program_showEpisode', {'program': episode.seasonId.programId.slug, 'season': episode.seasonId.id, 'episode': episode.slug}) }}">Voir l'épisode</a>
+                    </td>
+                    <td>
                         <a href="{{ path('episode_edit', {'slug': episode.slug}) }}">edit</a>
                     </td>
+                    {# <td>
+                        {{ include('episode/_delete_form.html.twig') }}
+                    </td> #}
                 </tr>
             {% else %}
                 <tr>
@@ -37,6 +47,5 @@
             </tbody>
         </table>
 
-        <a href="{{ path('episode_new') }}">Create new</a>
     </div>
 {% endblock %}
