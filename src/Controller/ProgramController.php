@@ -29,7 +29,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * @Route("/program", name="program_")
  */
-
 Class ProgramController extends AbstractController
 {
 
@@ -185,7 +184,6 @@ Class ProgramController extends AbstractController
             "program" => $program->getSlug(),
             "season" => $season->getId()
             ], Response::HTTP_SEE_OTHER);
-
         }
 
                 return $this->render('program/episode.html.twig', [

@@ -39,11 +39,11 @@
                         <p> {{comment.userId.username}} </p>
                         <p> {{ comment.comment }} • {{ comment.rate }}/10</p>
                         </br>
-                            {% if is_granted("ROLE_ADMIN") %}
-
-                                {{ include('comment/_delete_form.html.twig') }}
-
-                            {% endif %}
+                                {% if app.user is null %}
+                                    <p>Vous ne pouvez supprimer un commentaire dont vous n'êtes pas l'auteur.e.</p>
+                                {% else %}
+                                    {{ include('comment/_delete_form.html.twig') }}
+                                {% endif %}
 
                     {% else %}
                         <p>Aucun commentaire n'a été posté pour le moment.</p>
