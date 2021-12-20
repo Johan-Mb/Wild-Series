@@ -180,7 +180,11 @@ Class ProgramController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('program_showEpisode', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('program_showEpisode',
+            ["episode" => $episode->getSlug(),
+            "program" => $program->getSlug(),
+            "season" => $season->getId()
+            ], Response::HTTP_SEE_OTHER);
 
         }
 

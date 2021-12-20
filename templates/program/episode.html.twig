@@ -21,21 +21,34 @@
 
             <h2>Ajouter un commentaire</h2>
 
-        {{ form_start(comment_form, {attr: {novalidate:'novalidate' }})}}
-            <div class="test">{{ form_widget(comment_form) }}</div>
-            <button class="btn">{{ button_label|default('Enregistrer') }}</button>
-        {{ form_end(comment_form) }}
+                {% if is_granted("ROLE_ANONYMOUS") %}
+                    <p>Vous devez être connecté.e pour poster un commentaire.</p>
+                    <a href="{{ path('login') }}">Connexion</a>
+                {% endif %}
+
+                {% if is_granted("ROLE_CONTRIBUTOR") %}
+                    {{ form_start(comment_form, {attr: {novalidate:'novalidate' }})}}
+                        <div class="test">{{ form_widget(comment_form) }}</div>
+                        <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                    {{ form_end(comment_form) }}
+                {% endif %}
 
             <h2>Commentaires</h2>
 
-                {% for comment in episode.comments %}
-                    <p> {{comment.userId.username}} </p>
-                    <p> {{ comment.comment }} • {{ comment.rate }}/10</p>
-                    </br>
+                    {% for comment in episode.comments %}
+                        <p> {{comment.userId.username}} </p>
+                        <p> {{ comment.comment }} • {{ comment.rate }}/10</p>
+                        </br>
+                            {% if is_granted("ROLE_ADMIN") %}
 
-                {% else %}
-                    <p>Aucun commentaire n'a été posté pour le moment.</p>
-                {% endfor %}
+                                {{ include('comment/_delete_form.html.twig') }}
+
+                            {% endif %}
+
+                    {% else %}
+                        <p>Aucun commentaire n'a été posté pour le moment.</p>
+                    {% endfor %}
+
             </div>
 
         </div>

@@ -68,16 +68,12 @@ class EpisodeController extends AbstractController
         ]);
     }
 
-    /**
-     * Route("/{slug}", methods={"GET"}, name: "episode_show")
-     */
 
-    public function show(Episode $episode, Slugify $slugger): Response
+    #[Route('/{slug}', methods:['GET'], name: 'episode_show')]
+    public function show(Episode $episode): Response
     {
-
         return $this->render('episode/show.html.twig', [
             'episode' => $episode,
-            'slug' => $slug,
         ]);
     }
 

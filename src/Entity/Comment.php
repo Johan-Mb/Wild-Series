@@ -18,13 +18,13 @@ class Comment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=episode::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Episode::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $episode_id;
