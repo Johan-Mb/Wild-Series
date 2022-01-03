@@ -12,7 +12,6 @@ class UserController extends AbstractController
     #[Route('/profil', name: 'user')]
     public function index(): Response
     {
-
         $users = $this->getDoctrine()
         ->getRepository(User::class)
         ->findAll();
