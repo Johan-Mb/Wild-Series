@@ -50,6 +50,8 @@ class EpisodeController extends AbstractController
             $episode->setSlug($slug);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le nouvel épisode a bien été créé !');
+
             $email = (new Email())
             ->from('johan@wilder.com')
             ->to('johan.mabit@gmail.com')
@@ -104,6 +106,8 @@ class EpisodeController extends AbstractController
             $entityManager->remove($episode);
             $entityManager->flush();
         }
+
+        $this->addFlash('delete', "L'épisode a bien été supprimé !");
 
         return $this->redirectToRoute('episode_index', [], Response::HTTP_SEE_OTHER);
     }

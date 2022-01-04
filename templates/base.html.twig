@@ -10,6 +10,9 @@
 
         {% block stylesheets %}
 
+            {# On charge le CSS de bootstrap depuis le site directement #}
+        {#     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> #}
+
         {% endblock %}
             <link href="/assets/css/style.css" rel="stylesheet">
             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +22,30 @@
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
+{#
+    {% for label, messages in app.flashes(['success', 'delete']) %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %} #}
+
+    {% for message in app.flashes('success') %}
+        <div class="flash-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('delete') %}
+        <div class="flash-delete">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+
+        {% endblock %}
     </body>
 </html>

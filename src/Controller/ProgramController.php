@@ -10,23 +10,25 @@ use App\Entity\Program;
 use App\Service\Slugify;
 use App\Form\CommentType;
 use App\Form\ProgramType;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Mime\Email;
-
 use App\Form\SearchProgramFormType;
-use App\Repository\ActorRepository;
 
-use App\Repository\ProgramRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManagerInterface;
+
+use App\Repository\ActorRepository;
+use App\Repository\ProgramRepository;
+
+use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 /**
@@ -39,8 +41,10 @@ Class ProgramController extends AbstractController
      * @Route("/", name="index")
      * @return Response
      */
-    public function index(Request $request, ProgramRepository $programRepository, ActorRepository $actorRepository): Response
-    {
+    public function index(
+        Request $request,
+        ProgramRepository $programRepository,
+    ): Response {
         $form = $this->createForm(SearchProgramFormType::class);
         $form->handleRequest($request);
 
@@ -62,8 +66,13 @@ Class ProgramController extends AbstractController
      * @Route("/new", name="new", methods={"GET", "POST"})
      * @return Response
      */
-    public function newProgram(Request $request, EntityManagerInterface $entityManager, Slugify $slugger, MailerInterface $mailer): Response
-    {
+    public function newProgram(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        Slugify $slugger,
+        MailerInterface $mailer,
+        SessionInterface $session,
+    ): Response {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
@@ -78,6 +87,8 @@ Class ProgramController extends AbstractController
             // Set the program's owner
             $program->setOwner($this->getUser());
             $entityManager->flush();
+
+            $this->addFlash('success', 'Le nouveau programme a bien été créé !');
 
             $email = (new Email())
             ->from('johan@wilder.com')
@@ -126,13 +137,18 @@ Class ProgramController extends AbstractController
      * @Route("/{id}", name="delete", methods={"POST"})
      * @return Response
      */
-    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
-    {
-
+    public function delete(
+        Request $request,
+        Program $program,
+        EntityManagerInterface $entityManager,
+        SessionInterface $session,
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
             $entityManager->remove($program);
             $entityManager->flush();
         }
+
+        $this->addFlash('delete', 'Le programme a bien été supprimé !');
 
         return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
     }
